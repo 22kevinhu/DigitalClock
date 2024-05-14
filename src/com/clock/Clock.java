@@ -8,25 +8,36 @@ public class Clock extends JFrame {
 	private JLabel time;
 	private JLabel title;
 	private JPanel clockPanel;
-	LocalTime currentTime;
+	private LocalTime currentTime;
 
 	public Clock() {
+		this.setContentPane(clockPanel);
 		this.setTitle("Clock");
 		this.setResizable(true);
-		currentTime = LocalTime.now();
-		time.setText(String.format("%02d:%02d:%02d", currentTime.getHour(), currentTime.getMinute(),
-				currentTime.getSecond()));
+		this.setSize(600, 300);
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		time.setSize(50, 50);
+
+		setTime();
 	}
 
 	public void setTime() {
-
+		while (true) {
+			currentTime = LocalTime.now();
+			time.setText(String.format("%02d:%02d:%02d", currentTime.getHour(), currentTime.getMinute(),
+					currentTime.getSecond()));
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void main(String[] args) {
-		JFrame frame = new JFrame("Clock");
-		frame.setContentPane(new Clock().clockPanel);
-		frame.setSize(600, 300);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		new Clock();
 	}
 }
